@@ -10,6 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Loading from "@/components/Loading"
 
 // Tipe untuk post
 interface Post {
@@ -70,7 +71,7 @@ const CardList: React.FC<CardListProps> = ({ page, cat }) => {
   }, [page, cat]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />
   }
 
   return (

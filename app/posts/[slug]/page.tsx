@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Image from "next/image";
 import Menu from "@/components/Menu";
-import Comments from "@/components/Comment";
+import Comments from "@/components/Comments";
 
 // Tipe data untuk props
 interface SinglePageProps {
@@ -19,6 +19,7 @@ interface PostData {
   };
   img?: string;
   desc: string;
+  createdAt: string; // Menambahkan tipe untuk tanggal
 }
 
 const getData = async (slug: string): Promise<PostData> => {
@@ -37,6 +38,13 @@ const SinglePage: FC<SinglePageProps> = async ({ params }) => {
   const { slug } = params;
 
   const data = await getData(slug);
+
+  // Format tanggal dengan Date object
+  const formattedDate = new Date(data.createdAt).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -57,7 +65,7 @@ const SinglePage: FC<SinglePageProps> = async ({ params }) => {
             )}
             <div className="flex flex-col">
               <span className="font-semibold">{data.user.name}</span>
-              <span className="text-gray-500">01.01.2024</span>
+              <span className="text-gray-500">{formattedDate}</span>
             </div>
           </div>
         </div>
@@ -66,9 +74,8 @@ const SinglePage: FC<SinglePageProps> = async ({ params }) => {
             <Image
               src={data.img}
               alt="Post Image"
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
+              fill
+              className="object-cover rounded-lg"
             />
           </div>
         )}

@@ -21,7 +21,7 @@ const MenuPosts: React.FC<MenuPostsProps> = ({ withImage }) => {
           </div>
         )}
         <div className="flex flex-col gap-1">
-          <span className="text-sm rounded-md text-black bg-red-100 font-medium max-w-max border py-2 px-1">
+          <span className="text-sm rounded-full text-white bg-red-500 font-medium max-w-max border py-0 px-2">
             Travel
           </span>
           <h3 className="text-lg font-semibold">
@@ -38,7 +38,7 @@ const MenuPosts: React.FC<MenuPostsProps> = ({ withImage }) => {
         {withImage && (
           <div className="flex aspect-square relative">
             <Image
-              src="/p1.jpeg"
+              src="/p1.jpg"
               alt="Post Image"
               fill
               className="border object-cover rounded-sm"
@@ -46,7 +46,7 @@ const MenuPosts: React.FC<MenuPostsProps> = ({ withImage }) => {
           </div>
         )}
         <div className="flex flex-col gap-1">
-          <span className="text-sm rounded-md text-black bg-blue-100 font-medium max-w-max border py-2 px-1">
+          <span className="text-sm rounded-full text-white bg-blue-500 font-medium max-w-max border py-0 px-2">
             Culture
           </span>
           <h3 className="text-lg font-semibold">
@@ -63,7 +63,7 @@ const MenuPosts: React.FC<MenuPostsProps> = ({ withImage }) => {
         {withImage && (
           <div className="flex aspect-square relative">
             <Image
-              src="/p1.jpeg"
+              src="/p1.jpg"
               alt="Post Image"
               fill
               className="border object-cover rounded-sm"
@@ -71,7 +71,7 @@ const MenuPosts: React.FC<MenuPostsProps> = ({ withImage }) => {
           </div>
         )}
         <div className="flex flex-col gap-1">
-          <span className="text-sm rounded-md text-black bg-green-100 font-medium max-w-max border py-2 px-1">
+          <span className="text-sm rounded-full text-white bg-green-500 font-medium max-w-max border py-0 px-2">
             Food
           </span>
           <h3 className="text-lg font-semibold">
@@ -88,7 +88,7 @@ const MenuPosts: React.FC<MenuPostsProps> = ({ withImage }) => {
         {withImage && (
           <div className="flex aspect-square relative">
             <Image
-              src="/p1.jpeg"
+              src="/p1.jpg"
               alt="Post Image"
               fill
               className="border object-cover rounded-sm"
@@ -96,7 +96,7 @@ const MenuPosts: React.FC<MenuPostsProps> = ({ withImage }) => {
           </div>
         )}
         <div className="flex flex-col gap-1">
-          <span className="text-sm rounded-md text-black bg-purple-100 font-medium max-w-max border py-2 px-1">
+          <span className="text-sm rounded-full text-white bg-purple-500 font-medium max-w-max border py-0 px-2">
             Fashion
           </span>
           <h3 className="text-lg font-semibold">

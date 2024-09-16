@@ -13,7 +13,7 @@ export default function Home({ searchParams }:SearchParams) {
   const page = parseInt(searchParams.page) || 1;
 
   return (
-    <div className='min-h-screen bg-gray-200'>
+    <div className='min-h-screen'>
       <Featured />
       <CategoryList />
       <div className='flex gap-12'>

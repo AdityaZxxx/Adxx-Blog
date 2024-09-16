@@ -5,8 +5,9 @@ import Image from "next/image";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
+import Loading from "@/components/Loading";
+import { format } from "date-fns"; // Optional: for date formatting
 
-// Definisikan tipe untuk komentar dan pengguna
 interface User {
   name: string;
   image?: string;
@@ -34,7 +35,7 @@ const fetcher = async (url: string): Promise<Comment[]> => {
 const Comments = ({ postSlug }: { postSlug: string }) => {
   const { status } = useSession();
   const { data, mutate, isLoading } = useSWR<Comment[]>(
-    `http://localhost:3000/api/comments?postSlug=${postSlug}`,
+    `/api/comments?postSlug=${postSlug}`,
     fetcher
   );
 
@@ -42,7 +43,7 @@ const Comments = ({ postSlug }: { postSlug: string }) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const handleSubmit = async () => {
-    if (!desc) return; // Pastikan tidak mengirim komentar kosong
+    if (!desc.trim()) return; // Pastikan komentar tidak hanya whitespace
 
     setIsSubmitting(true);
 
@@ -75,16 +76,16 @@ const Comments = ({ postSlug }: { postSlug: string }) => {
       {status === "authenticated" ? (
         <div className="mb-4">
           <textarea
-            value={desc} // Tampilkan nilai dari state desc
+            value={desc}
             placeholder="Write a comment..."
             className="w-full p-2 border border-gray-300 rounded-lg resize-none"
             onChange={(e) => setDesc(e.target.value)}
-            disabled={isSubmitting} // Nonaktifkan input saat sedang submit
+            disabled={isSubmitting}
           />
           <button
             className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-400"
             onClick={handleSubmit}
-            disabled={isSubmitting || !desc} // Nonaktifkan jika sedang submit atau input kosong
+            disabled={isSubmitting || !desc.trim()} // Validasi untuk mencegah kirim komentar kosong
           >
             {isSubmitting ? "Sending..." : "Send"}
           </button>
@@ -96,7 +97,7 @@ const Comments = ({ postSlug }: { postSlug: string }) => {
       )}
       <div className="mt-4">
         {isLoading ? (
-          "Loading..."
+          <Loading />
         ) : (
           data?.map((item: Comment) => (
             <div className="flex gap-4 mb-4 p-4 border-b border-gray-200" key={item._id}>
@@ -105,7 +106,7 @@ const Comments = ({ postSlug }: { postSlug: string }) => {
                   <Image
                     src={item.user.image}
                     alt={`${item.user.name}'s profile`}
-                    layout="fill"
+                    fill
                     className="object-cover rounded-full"
                   />
                 </div>
@@ -113,7 +114,9 @@ const Comments = ({ postSlug }: { postSlug: string }) => {
               <div className="flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-semibold">{item.user.name}</span>
-                  <span className="text-gray-500 text-sm">{item.createdAt}</span>
+                  <span className="text-gray-500 text-sm">
+                    {format(new Date(item.createdAt), "dd MMM yyyy, HH:mm")} {/* Optional: date formatting */}
+                  </span>
                 </div>
                 <p className="text-gray-700">{item.desc}</p>
               </div>

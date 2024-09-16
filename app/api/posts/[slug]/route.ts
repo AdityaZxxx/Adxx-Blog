@@ -1,14 +1,14 @@
 import prisma from "@/utils/connect";
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
+// Tipe untuk parameter yang diterima dalam fungsi GET
 interface Params {
-  params: {
-    slug: string;
-  };
+  slug: string;
 }
 
 // GET SINGLE POST
-export const GET = async (req: Request, { params }: Params) => {
+export const GET = async (req: NextRequest, { params }: { params: Params }): Promise<NextResponse> => {
   const { slug } = params;
 
   try {
@@ -18,11 +18,11 @@ export const GET = async (req: Request, { params }: Params) => {
       include: { user: true },
     });
 
-    return NextResponse.json(post, { status: 200 });
+    return new NextResponse(JSON.stringify(post), { status: 200 });
   } catch (err) {
-    console.log(err);
-    return NextResponse.json(
-      { message: "Something went wrong!" },
+    console.error(err);
+    return new NextResponse(
+      JSON.stringify({ message: "Something went wrong!" }),
       { status: 500 }
     );
   }
