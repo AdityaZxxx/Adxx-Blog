@@ -14,7 +14,7 @@ interface Category {
 
 // Fungsi untuk mendapatkan data kategori
 const getData = async (): Promise<Category[]> => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const apiUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const res = await fetch(`${apiUrl}/api/categories`, {
     cache: "no-store",
   })

@@ -25,7 +25,7 @@ interface Post {
 
 // Fungsi untuk mengambil data dari API
 const getData = async (page: number, cat?: string) => {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const apiUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const res = await fetch(
     `${apiUrl}/api/posts?page=${page}&cat=${cat || ""}`,
     {
