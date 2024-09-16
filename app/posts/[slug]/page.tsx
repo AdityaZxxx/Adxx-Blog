@@ -23,7 +23,8 @@ interface PostData {
 }
 
 const getData = async (slug: string): Promise<PostData> => {
-  const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const res = await fetch(`${apiUrl}/api/posts/${slug}`, {
     cache: "no-store",
   });
 
@@ -74,7 +75,7 @@ const SinglePage: FC<SinglePageProps> = async ({ params }) => {
             <Image
               src={data.img}
               alt="Post Image"
-              fill
+              layout="fill"
               className="object-cover rounded-lg"
             />
           </div>

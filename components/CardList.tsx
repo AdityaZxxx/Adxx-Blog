@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
@@ -10,7 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import Loading from "@/components/Loading"
+import Loading from "@/components/Loading";
 
 // Tipe untuk post
 interface Post {
@@ -25,8 +25,9 @@ interface Post {
 
 // Fungsi untuk mengambil data dari API
 const getData = async (page: number, cat?: string) => {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   const res = await fetch(
-    `http://localhost:3000/api/posts?page=${page}&cat=${cat || ""}`,
+    `${apiUrl}/api/posts?page=${page}&cat=${cat || ""}`,
     {
       cache: "no-store",
     }
@@ -56,6 +57,7 @@ const CardList: React.FC<CardListProps> = ({ page, cat }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const { posts, count } = await getData(page, cat);
         setPosts(posts);
@@ -71,14 +73,14 @@ const CardList: React.FC<CardListProps> = ({ page, cat }) => {
   }, [page, cat]);
 
   if (isLoading) {
-    return <Loading />
+    return <Loading />;
   }
 
   return (
     <div className="flex flex-col items-center">
       <h1 className="m-10 text-2xl font-bold">Recent Posts</h1>
       <div className="grid grid-cols-1 gap-6 w-full max-w-4xl">
-        {posts?.map((item: Post) => (
+        {posts.map((item: Post) => (
           <Card item={item} key={item._id} />
         ))}
       </div>
