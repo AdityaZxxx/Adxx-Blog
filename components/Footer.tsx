@@ -13,10 +13,7 @@ const Footer = () => {
             <h1 className="text-2xl font-bold">AdxxBlog</h1>
           </div>
           <p className="max-w-sm text-sm text-gray-900">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim
-            necessitatibus similique aspernatur obcaecati veritatis. Aperiam cum
-            porro sequi, totam minima consequuntur, aspernatur deleniti vero
-            repellendus dolores.
+          Find articles about the latest trends share information about technology, fashion, style, vacation spots, and articles about food.
           </p>
           <div className="flex gap-4 mt-4">
             <FaTwitter size={24} />
