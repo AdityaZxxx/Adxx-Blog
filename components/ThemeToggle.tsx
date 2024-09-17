@@ -8,7 +8,6 @@ const ThemeToggle: React.FC = () => {
   const themeContext = useContext(ThemeContext);
 
   if (!themeContext) {
-    // Handle the case where the context is not available
     return <div>Error: Theme context is not available!</div>;
   }
 
@@ -17,8 +16,8 @@ const ThemeToggle: React.FC = () => {
   return (
     <div
       onClick={toggle}
-      className={`relative flex items-center justify-between w-14 h-6 rounded-full p-1 cursor-pointer ${
-        theme === "dark" ? "bg-white" : "bg-gray-900"
+      className={`relative flex items-center justify-between w-14 h-6 rounded-xl p-1 cursor-pointer transition-colors duration-300 ${
+        theme === "dark" ? "bg-gray-600" : "bg-gray-400"
       }`}
     >
       {/* Moon icon */}
@@ -27,15 +26,13 @@ const ThemeToggle: React.FC = () => {
         alt="Moon Icon"
         width={14}
         height={14}
-        className={`${theme === "dark" ? "text-gray-900" : "text-white"}`}
+        className="text-white"
       />
 
       {/* Ball switcher */}
       <div
         className={`absolute w-6 h-6 rounded-full transition-transform duration-300 ${
-          theme === "dark"
-            ? "translate-x-1 bg-gray-900"
-            : "translate-x-8 bg-white"
+          theme === "dark" ? "translate-x-0 bg-white" : "translate-x-full bg-gray-800"
         }`}
       />
 
@@ -45,7 +42,7 @@ const ThemeToggle: React.FC = () => {
         alt="Sun Icon"
         width={14}
         height={14}
-        className={`${theme === "dark" ? "text-gray-900" : "text-white"}`}
+        className="text-gray-900"
       />
     </div>
   );

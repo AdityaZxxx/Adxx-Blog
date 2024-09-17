@@ -19,9 +19,9 @@ const LoginPage: FC = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+    <div className="flex items-center justify-center min-h-screen dark:bg-gray-800 rounded-xl">
+      <div className="p-8 rounded-lg border-y-2 border-gray-500 shadow-lg max-w-sm w-full bg-gray-800 ">
+        <h1 className="text-2xl font-bold mb-6 text-center dark:text-white text-white">Login</h1>
         <div className="space-y-4">
           {/* Login dengan Google */}
           <button
@@ -34,7 +34,7 @@ const LoginPage: FC = () => {
           {/* Login dengan GitHub */}
           <button
             onClick={() => signIn("github")}
-            className="w-full py-3 px-4 bg-gray-800 text-white rounded-lg shadow hover:bg-gray-900 transition"
+            className="w-full py-3 px-4 bg-green-600 text-white rounded-lg shadow hover:bg-green-900 transition"
           >
             Sign in with GitHub
           </button>

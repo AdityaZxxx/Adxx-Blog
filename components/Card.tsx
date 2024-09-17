@@ -22,10 +22,10 @@ const Card: React.FC<CardProps> = ({ item }) => {
       )}
       <div className="flex flex-col gap-3">
         <div className="">
-          <span className="font-light text-gray-700">
+          <span className="font-light text-gray-700 dark:text-gray-400">
             {item.createdAt.substring(0, 10)} -{" "}
           </span>
-          <span className="text-cyan-500 font-medium">{item.catSlug}</span>
+          <span className="text-cyan-500 dark:text-yellow-400 font-medium">{item.catSlug}</span>
         </div>
         <Link href={`/posts/${item.slug}`}>
           <h1 className="text-xl font-bold">{item.title}</h1>

@@ -6,7 +6,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="text-black py-10 px-0 border-t-4">
+    <footer className=" py-10 px-0 border-t-2 dark:border-white">
       <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between md:items-start">
         <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <div className="flex items-center gap-3 mb-4">
@@ -49,10 +49,10 @@ const Footer = () => {
           </div>
           <div className="flex flex-col gap-2">
             <span className="text-lg font-semibold">Social</span>
-            <Link href="/https://x.com/adxxya30" target="_blank" rel="noopener noreferrer" className="hover:underline">X Twitter</Link>
-            <Link href="/https://www.tiktok.com/@adxxlenathea" target="_blank" rel="noopener noreferrer" className="hover:underline">Tiktok</Link>
-            <Link href="/https://github.com/AdityaZxxx" target="_blank" rel="noopener noreferrer" className="hover:underline">Github</Link>
-            <Link href="/https://www.instagram.com/adxxya30" target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</Link>
+            <Link href="https://x.com/adxxya30" target="_blank" rel="noopener noreferrer" className="hover:underline">X Twitter</Link>
+            <Link href="https://www.tiktok.com/@adxxlenathea" target="_blank" rel="noopener noreferrer" className="hover:underline">Tiktok</Link>
+            <Link href="https://github.com/AdityaZxxx" target="_blank" rel="noopener noreferrer" className="hover:underline">Github</Link>
+            <Link href="https://www.instagram.com/adxxya30" target="_blank" rel="noopener noreferrer" className="hover:underline">Instagram</Link>
           </div>
         </div>
       </div>

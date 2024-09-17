@@ -7,7 +7,7 @@ const Featured = () => {
   return (
     <div className="mt-7 container mx-auto px-4">
       {/* Judul */}
-      <h1 className="text-6xl font-bold leading-tight text-gray-900 max-w-3xl sm:text-3xl md:text-5xl">
+      <h1 className="text-6xl font-bold leading-tight   max-w-3xl sm:text-3xl md:text-5xl">
         Hey, Aditya here! Discover my stories and creative ideas.
       </h1>
 
@@ -20,10 +20,10 @@ const Featured = () => {
 
         {/* Teks Deskripsi */}
         <div className="flex flex-col gap-5 w-full lg:w-1/2">
-          <h1 className="text-3xl font-semibold text-gray-900 leading-snug">
+          <h1 className="text-3xl font-semibold leading-snug">
             Explore the world of creativity and discover new ideas for design, tech, and innovation.
           </h1>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg leading-relaxed">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate, quam nisi magni ea laborum inventore voluptatum laudantium repellat ducimus unde aspernatur fuga. Quo, accusantium quisquam! Harum unde sit culpa debitis.
           </p>
 
