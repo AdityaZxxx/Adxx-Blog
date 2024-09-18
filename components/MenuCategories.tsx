@@ -5,7 +5,7 @@ const MenuCategories = () => {
   return (
     <div className="flex flex-wrap gap-4">
           <Link
-        href="/blog?cat=style"
+        href="/blog?cat=Style"
         className="px-4 py-2 text-black border-y-2 bg-pink-100 font-medium rounded-lg hover:bg-pink-400 transition"
       >
         Style
@@ -17,25 +17,25 @@ const MenuCategories = () => {
         Fashion
       </Link>
       <Link
-        href="/blog?cat=food"
+        href="/blog?cat=Food"
         className="px-4 py-2 text-black bg-green-100 font-medium rounded-lg hover:bg-green-400 border-y-2 transition"
       >
         Food
       </Link>
       <Link
-        href="/blog?cat=travel"
+        href="/blog?cat=Travel"
         className="px-4 py-2 text-black bg-blue-100 font-medium rounded-lg hover:bg-blue-400 border-y-2 transition"
       >
         Travel
       </Link>
       <Link
-        href="/blog?cat=culture"
+        href="/blog?cat=Culture"
         className="px-4 py-2 text-black bg-orange-100 font-medium rounded-lg hover:bg-orange-400 border-t-2 transition"
       >
         Culture
       </Link>
       <Link
-        href="/blog?cat=coding"
+        href="/blog?cat=Coding"
         className="px-4 py-2 text-black bg-teal-100 font-medium rounded-lg hover:bg-teal-400 border-y-2 transition"
       >
         Coding

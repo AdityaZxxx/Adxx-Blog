@@ -15,15 +15,15 @@ const AuthLinks: React.FC = () => {
   return (
     <>
       {status === "unauthenticated" ? (
-        <Link href="/login" className='text-xl cursor-pointer'>
+        <Link href="/login" className='text-xl hover:text-gray-500 cursor-pointer'>
           Login
         </Link>
       ) : (
         <>
-          <Link href="/write" className='text-xl cursor-pointer'>
+          <Link href="/write" className='text-xl cursor-pointer hover:text-gray-500'>
             Write
           </Link>
-          <span className='text-xl cursor-pointer' onClick={handleSignOut}>
+          <span className='text-xl cursor-pointer hover:text-gray-500' onClick={handleSignOut}>
             Logout
           </span>
         </>

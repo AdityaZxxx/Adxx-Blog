@@ -1,65 +1,48 @@
 "use client";
 
-import Image from "next/image";
-import { FC, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import "react-quill/dist/quill.bubble.css";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { app } from "@/utils/firebase";
-import { FaPlus } from "react-icons/fa";
+import ReactQuill from "react-quill";
+import Loading from "@/components/Loading";
+import { FaExternalLinkAlt, FaImage, FaPlus, FaVideo } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
 
-// Lazy load ReactQuill
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-
-// Tipe data untuk state
-interface WritePageProps {}
-
-// Tipe data untuk file
-interface File extends Blob {
+interface FileType extends File {
   name: string;
-  type: string;
-  size: number;
 }
 
-// Komponen utama
-const WritePage: FC<WritePageProps> = () => {
+const WritePage: React.FC = () => {
   const { status } = useSession();
   const router = useRouter();
 
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<FileType | null>(null);
   const [media, setMedia] = useState<string>("");
   const [value, setValue] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [catSlug, setCatSlug] = useState<string>("");
 
   useEffect(() => {
-    if (file) {
+    const upload = () => {
+      if (!file) return;
       const storage = getStorage(app);
       const name = new Date().getTime() + file.name;
       const storageRef = ref(storage, name);
 
-      const uploadTask = uploadBytesResumable(storageRef, file as Blob);
+      const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-          }
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
         },
         (error) => {
-          console.error("Upload failed:", error);
+          console.error("Upload failed", error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -67,11 +50,13 @@ const WritePage: FC<WritePageProps> = () => {
           });
         }
       );
-    }
+    };
+
+    if (file) upload();
   }, [file]);
 
   if (status === "loading") {
-    return <div className="text-center text-lg">Loading...</div>;
+    return <Loading />;
   }
 
   if (status === "unauthenticated") {
@@ -90,15 +75,12 @@ const WritePage: FC<WritePageProps> = () => {
   const handleSubmit = async () => {
     const res = await fetch("/api/posts", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
       body: JSON.stringify({
         title,
         desc: value,
         img: media,
         slug: slugify(title),
-        catSlug: catSlug || "style", //If not selected, choose the general category
+        catSlug: catSlug || "style",
       }),
     });
 
@@ -109,15 +91,16 @@ const WritePage: FC<WritePageProps> = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="flex flex-col space-y-6 p-6 max-w-4xl mx-auto">
       <input
         type="text"
-        placeholder="Title"
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4"
+        placeholder="Enter Title"
+        className="w-full p-4 text-xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
         onChange={(e) => setTitle(e.target.value)}
       />
+
       <select
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg mb-4"
+        className="w-full p-4 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
         onChange={(e) => setCatSlug(e.target.value)}
       >
         <option value="style">Style</option>
@@ -127,46 +110,51 @@ const WritePage: FC<WritePageProps> = () => {
         <option value="travel">Travel</option>
         <option value="coding">Coding</option>
       </select>
-      <div className="relative">
-        <button
-          className="absolute top-2 right-2 p-2 bg-gray-200 rounded-full"
-          onClick={() => setOpen(!open)}
-        >
-          <FaPlus size={16} />
+
+      <div className="flex items-center space-x-4">
+        <button onClick={() => setOpen(!open)} className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+          <FaPlus size={24} className="text-gray-700 dark:text-white" />
         </button>
+
         {open && (
-          <div className="absolute top-10 right-2 bg-white border border-gray-300 shadow-lg rounded-lg p-2 flex gap-2">
-            <input
-              type="file"
-              id="image"
-              onChange={(e) => setFile(e.target.files?.[0] || null)}
-              className="hidden"
-            />
-            <label htmlFor="image" className="p-2 bg-gray-200 rounded-full cursor-pointer">
-              <Image src="/image.png" alt="Image" width={16} height={16} />
+          <div className="flex space-x-4">
+            <label htmlFor="image" className="cursor-pointer p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+              <FaImage size={16} className="text-gray-700 dark:text-white" />
+              <input
+                type="file"
+                id="image"
+                className="hidden"
+                onChange={(e) => {
+                  const selectedFile = e.target.files?.[0];
+                  if (selectedFile) {
+                    setFile(selectedFile);
+                  }
+                }}
+              />
             </label>
-            <button className="p-2 bg-gray-200 rounded-full">
-              <Image src="/external.png" alt="External" width={16} height={16} />
+
+            <button className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+              <FaExternalLinkAlt size={16} className="text-gray-700 dark:text-white" />
             </button>
-            <button className="p-2 bg-gray-200 rounded-full">
-              <Image src="/video.png" alt="Video" width={16} height={16} />
+
+            <button className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+              <FaVideo size={16} className="text-gray-700 dark:text-white" />
             </button>
           </div>
         )}
-        <ReactQuill
-          className="h-80 mt-4"
-          theme="bubble"
-          value={value}
-          onChange={setValue}
-          placeholder="Tell your story..."
-        />
       </div>
-      <button
-        className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-        onClick={handleSubmit}
-      >
+
+      <ReactQuill
+        className="w-full h-64 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+        theme="bubble"
+        value={value}
+        onChange={setValue}
+        placeholder="Tell your story..."
+      />
+
+      <Button variant="default" className="w-full p-4 text-lg bg-blue-600 text-white rounded-lg hover:bg-blue-700" onClick={handleSubmit}>
         Publish
-      </button>
+      </Button>
     </div>
   );
 };

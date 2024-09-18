@@ -34,8 +34,8 @@ const Navbar = () => {
 <div className="px-5">
 <ThemeToggle /></div>
       {/* Links */}
-      <div className="hidden md:flex items-center gap-5 text-lg">
-        <Link href="/" className="text-xl hover:text-gray-500">
+      <div className="hidden md:flex items-center gap-5 text-xl ">
+        <Link href="/" className="text-xl  hover:text-gray-500">
           Home
         </Link>
         <Link href="/contact" className="text-xl hover:text-gray-500">
@@ -56,7 +56,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="absolute mt-4 top-16 right-0 w-full bg-[#121836]  border-b-2 border-gray-400 shadow-md md:hidden">
+        <div className="absolute z-50 mb-4 top-24 right-0 w-full bg-white font-medium dark:bg-[#121836]  shadow-md md:hidden">
           <div className="flex flex-col items-center gap-5 py-4">
             <Link href="/" className="text-xl hover:text-gray-500" onClick={() => setMenuOpen(false)}>
               Home

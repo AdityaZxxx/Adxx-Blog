@@ -70,8 +70,8 @@ const CardList: React.FC<CardListProps> = ({ page, cat }) => {
   }
 
   return (
-    <div className="">
-      <h1 className="">Recent Posts</h1>
+    <div className="flex px-3  flex-col">
+      <h1 className="font-medium pb-2 text-lg ">Recent Posts</h1>
       <div className="">
         {posts.map((item) => (
           <Card item={item} key={item._id} />

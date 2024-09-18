@@ -14,9 +14,9 @@ const BlogPage: FC<SearchParams> = ({ searchParams }) => {
   const { cat } = searchParams;
 
   return (
-    <div className="p-4 bg-gray-50 rounded-xl border-t-2">
-      <h1 className="text-3xl font-bold mb-4">{cat ? `${cat} Blog` : "Blog"}</h1>
-      <div className="flex gap-8">
+    <div className="p-4 dark:bg-blue-950 rounded-md">
+      <h1 className="dark:bg-cyan-900 border-2 border-gray-500 rounded-md px-1 py-2 text-center capitalize">{cat ? `${cat} Blog` : "Blog"}</h1>
+      <div className="flex flex-col md:flex-row gap-12 pt-10">
         <CardList page={page} cat={cat} />
         <Menu />
       </div>

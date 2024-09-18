@@ -45,11 +45,11 @@ const CategoryList = () => {
   return (
     <div className="flex flex-col pb-10">
       <h1 className="m-5 text-xl font-bold pt-10">Popular Categories</h1>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1  gap-6 md:grid-cols-3">
         {categories?.map((item) => (
           <Link
             href={`/blog?cat=${item.slug}`}
-            className="flex items-center gap-4 p-4 border-y-2 bg-slate-100 rounded-xl justify-center hover:bg-gray-200"
+            className="flex items-center dark:bg-slate-900 gap-4 p-4 shadow-sm shadow-gray-500 dark:shadow-white bg-slate-100 rounded-xl justify-center hover:bg-gray-200"
             key={item._id}
           >
             {item.img && (
