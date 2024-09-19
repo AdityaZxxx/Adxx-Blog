@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import "react-quill/dist/quill.bubble.css";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { app } from "@/utils/firebase";
 import ReactQuill from "react-quill";
 import Loading from "@/components/Loading";
 import { FaExternalLinkAlt, FaImage, FaPlus, FaVideo } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { CldImage } from "next-cloudinary";
 
 interface FileType extends File {
   name: string;
@@ -27,32 +26,30 @@ const WritePage: React.FC = () => {
   const [catSlug, setCatSlug] = useState<string>("");
 
   useEffect(() => {
-    const upload = () => {
+    const uploadToCloudinary = async () => {
       if (!file) return;
-      const storage = getStorage(app);
-      const name = new Date().getTime() + file.name;
-      const storageRef = ref(storage, name);
 
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "adxxblog");
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
-        },
-        (error) => {
-          console.error("Upload failed", error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setMedia(downloadURL);
-          });
-        }
-      );
+      try {
+        const res = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = await res.json();
+        setMedia(data.secure_url);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
     };
 
-    if (file) upload();
+    if (file) uploadToCloudinary();
   }, [file]);
 
   if (status === "loading") {
@@ -112,13 +109,19 @@ const WritePage: React.FC = () => {
       </select>
 
       <div className="flex items-center space-x-4">
-        <button onClick={() => setOpen(!open)} className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+        <button
+          onClick={() => setOpen(!open)}
+          className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+        >
           <FaPlus size={24} className="text-gray-700 dark:text-white" />
         </button>
 
         {open && (
           <div className="flex space-x-4">
-            <label htmlFor="image" className="cursor-pointer p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600">
+            <label
+              htmlFor="image"
+              className="cursor-pointer p-2 bg-gray-200 rounded-full hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+            >
               <FaImage size={16} className="text-gray-700 dark:text-white" />
               <input
                 type="file"
@@ -152,9 +155,15 @@ const WritePage: React.FC = () => {
         placeholder="Tell your story..."
       />
 
-      <Button variant="default" className="w-full p-4 text-lg bg-blue-600 text-white rounded-lg hover:bg-blue-700" onClick={handleSubmit}>
+      <Button
+        variant="default"
+        className="w-full p-4 text-lg bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        onClick={handleSubmit}
+      >
         Publish
       </Button>
+
+      {media && <CldImage alt="Uploaded image" src={media} width="500" height="500" />}
     </div>
   );
 };

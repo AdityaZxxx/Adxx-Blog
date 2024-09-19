@@ -1,7 +1,7 @@
 {
   "name": "adxx-blog-v2",
   "version": "0.1.0",
-"type": "module",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -19,10 +19,10 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.0.0",
-    "firebase": "^10.13.1",
     "lucide-react": "^0.441.0",
     "next": "14.2.11",
     "next-auth": "^4.24.7",
+    "next-cloudinary": "^6.13.0",
     "prisma": "^5.19.1",
     "react": "^18",
     "react-dom": "^18",
