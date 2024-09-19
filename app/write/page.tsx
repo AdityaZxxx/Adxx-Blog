@@ -25,6 +25,7 @@ const WritePage: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [catSlug, setCatSlug] = useState<string>("");
 
+  // Upload file hanya dijalankan di client-side
   useEffect(() => {
     const uploadToCloudinary = async () => {
       if (!file) return;
@@ -42,6 +43,10 @@ const WritePage: React.FC = () => {
           }
         );
 
+        if (!res.ok) {
+          throw new Error("Error during file upload");
+        }
+
         const data = await res.json();
         setMedia(data.secure_url);
       } catch (error) {
@@ -49,9 +54,12 @@ const WritePage: React.FC = () => {
       }
     };
 
-    if (file) uploadToCloudinary();
+    if (file) {
+      uploadToCloudinary();
+    }
   }, [file]);
 
+  // Redirect jika status session sedang loading atau tidak terautentikasi
   if (status === "loading") {
     return <Loading />;
   }
@@ -61,6 +69,7 @@ const WritePage: React.FC = () => {
     return null;
   }
 
+  // Fungsi untuk slugify
   const slugify = (str: string): string =>
     str
       .toLowerCase()
@@ -69,6 +78,7 @@ const WritePage: React.FC = () => {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
+  // Handle submit post
   const handleSubmit = async () => {
     const res = await fetch("/api/posts", {
       method: "POST",
