@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import "react-quill/dist/quill.bubble.css";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
 import Loading from "@/components/Loading";
 import { FaExternalLinkAlt, FaImage, FaPlus, FaVideo } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-import { CldImage } from "next-cloudinary";
+
+// Dynamically import ReactQuill with SSR disabled
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 
 interface FileType extends File {
   name: string;
@@ -25,7 +27,6 @@ const WritePage: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [catSlug, setCatSlug] = useState<string>("");
 
-  // Upload file hanya dijalankan di client-side
   useEffect(() => {
     const uploadToCloudinary = async () => {
       if (!file) return;
@@ -59,7 +60,6 @@ const WritePage: React.FC = () => {
     }
   }, [file]);
 
-  // Redirect jika status session sedang loading atau tidak terautentikasi
   if (status === "loading") {
     return <Loading />;
   }
@@ -69,7 +69,6 @@ const WritePage: React.FC = () => {
     return null;
   }
 
-  // Fungsi untuk slugify
   const slugify = (str: string): string =>
     str
       .toLowerCase()
@@ -78,10 +77,12 @@ const WritePage: React.FC = () => {
       .replace(/[\s_-]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
-  // Handle submit post
   const handleSubmit = async () => {
     const res = await fetch("/api/posts", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         title,
         desc: value,
@@ -173,7 +174,6 @@ const WritePage: React.FC = () => {
         Publish
       </Button>
 
-      {media && <CldImage alt="Uploaded image" src={media} width="500" height="500" />}
     </div>
   );
 };
